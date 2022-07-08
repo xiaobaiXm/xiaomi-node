@@ -11,7 +11,7 @@ const Product = require('../model/product.model')
 const Banner = seq.define('mi_banner', {
   product_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     comment: 'product id'
   },
   img: {
@@ -28,7 +28,7 @@ const Banner = seq.define('mi_banner', {
 
 Banner.belongsTo(Product, {
   foreignKey: 'product_id',
-  as: 'banner_product_info'
+  as: 'banner_product_id'
 })
 
 module.exports = Banner

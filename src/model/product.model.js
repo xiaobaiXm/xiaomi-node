@@ -6,10 +6,25 @@ const seq = require('../db/seq')
 
 // product model
 const Product = seq.define('mi_product', {
+  nav_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    comment: 'product nav id',
+  },
   category_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     comment: 'product category id',
+  },
+  container_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    comment: 'product container id',
+  },
+  search_group_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    comment: 'product search group id',
   },
   name: {
     type: DataTypes.STRING,
@@ -51,6 +66,18 @@ const Product = seq.define('mi_product', {
     allowNull: false,
     defaultValue: 20,
     comment: 'product inventory',
+  },
+  promotion: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: 'product promotion',
+  },
+  installment: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: 'product installment',
   },
   status: {
     type: DataTypes.TINYINT,

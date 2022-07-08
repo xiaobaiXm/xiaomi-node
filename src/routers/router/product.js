@@ -3,12 +3,16 @@ const router = new Router({
   prefix: '/product'
 })
 
+// controller
+const {
+  getGuessYouLike
+} = require('../../controller/product.controller')
+
 // middleware
 
-// controller
-
-
 // router
+router
+  .get('/guessYouLike', getGuessYouLike)
 
 
 module.exports = router

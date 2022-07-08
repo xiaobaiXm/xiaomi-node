@@ -6,7 +6,8 @@ const router = new Router({
 
 // controller
 const {
-  findProduct
+  findProduct,
+  findKeyword
 } = require('../../controller/search.controller')
 
 // middleware
@@ -22,5 +23,6 @@ const {
 // router
 router
   .post('/', validator(findType), findProduct)
+  .get('/keyword', findKeyword)
 
 module.exports = router

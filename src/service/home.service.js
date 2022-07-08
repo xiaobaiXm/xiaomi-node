@@ -59,11 +59,15 @@ class HomeService {
 
   async getFooterNavInfo() {
     const res = await Footer_nav.findAll({
-      attributes: ['id', 'name', 'group']
+      attributes: ['id', 'name', 'path', 'group']
     })
 
-    console.log('res', res)
-    return res
+    const newArr = [...new Set(res.map(item => item.group))]
+    const list = []
+    newArr.forEach(groups => {
+      list.push(res.filter(item => item.group === groups))
+    })
+    return list
   }
 }
 

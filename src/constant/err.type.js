@@ -44,28 +44,18 @@ module.exports = {
     message: '无效的token',
     data: null
   },
-  invalidProductID: {
-    code: 10201,
-    message: '无效的商品id',
-    data: null
-  },
-  productNotAvailable: {
-    code: 10202,
-    message: '该商品无货',
-    data: null
-  },
   addShopCartError: {
-    code: 10203,
+    code: 10201,
     message: '添加商品失败',
     data: null
   },
   findAllShopCartError: {
-    code: 10204,
+    code: 10202,
     message: '获取购物车失败',
     data: null
   },
   updateShopCartError: {
-    code: 10205,
+    code: 10203,
     message: '更新购物车失败',
     data: null
   },
@@ -119,6 +109,11 @@ module.exports = {
     message: '搜索页参数数据格式错误',
     data: null
   },
+  findSearchKeywordError: {
+    code: 10602,
+    message: '获取keyword失败',
+    data: null
+  },
   productFormatError: {
     code: 10701,
     message: '商品参数数据格式错误',
@@ -137,6 +132,21 @@ module.exports = {
   removeCollectionError: {
     code: 10803,
     message: '删除收藏商品失败',
+    data: null
+  },
+  invalidProductID: {
+    code: 10901,
+    message: '无效的商品id',
+    data: null
+  },
+  productNotAvailable: {
+    code: 10902,
+    message: '该商品无货',
+    data: null
+  },
+  getGuessYouLikeError: {
+    code: 10903,
+    message: '获取猜你喜欢列表失败',
     data: null
   }
 }
