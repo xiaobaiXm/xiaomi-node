@@ -22,22 +22,22 @@ const Address = seq.define('mi_address', {
     comment: 'phone'
   },
   provinces: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     comment: 'provinces'
   },
   city: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     comment: 'city'
   },
   area: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     comment: 'area'
   },
   address: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     comment: 'address'
   },

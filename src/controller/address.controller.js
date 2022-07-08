@@ -75,7 +75,6 @@ class AddressController {
     const {
       id
     } = ctx.request.params
-    console.log(' ', id)
     try {
       ctx.body = {
         code: 200,

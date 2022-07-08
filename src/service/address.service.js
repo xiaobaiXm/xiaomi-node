@@ -14,7 +14,9 @@ class AddressService {
   // find all user address
   async findAllAddress(user_id) {
     return await Address.findAll({
-      attributes: ['user_id', 'ceratedAt', 'updatedAt'],
+      attributes: {
+        exclude: ['user_id', 'createdAt', 'updatedAt']
+      },
       where: {
         user_id
       }
@@ -23,6 +25,8 @@ class AddressService {
 
   // update address
   async updateAddress(id, addressInfo) {
+    console.log(id)
+    console.log(addressInfo)
     return await Address.update(addressInfo, {
       where: {
         id

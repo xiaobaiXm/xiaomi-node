@@ -9,7 +9,7 @@ const corsConfig = {
   },
   maxAge: 5,
   credentials: true,
-  allowMethods: ["GET", "POST", "PUT", "DELETE"],
+  allowMethods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowHeaders: ["Content-Type", "Authorization", "Accept"],
   exposeHeaders: ["WWW-Authenticate", "Server-Authorization"],
 }
