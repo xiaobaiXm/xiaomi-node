@@ -1,36 +1,36 @@
 module.exports = {
   userFormateError: {
-    code: 1001,
+    code: 10001,
     message: '用户名或密码为空',
     data: null
   },
   userAlreadyExists: {
-    code: 1002,
+    code: 10002,
     message: '该用户名已存在',
     data: null
   },
   userRegisterError: {
-    code: 1003,
+    code: 10003,
     message: '用户注册失败',
     data: null
   },
   userDoesNotExist: {
-    code: 1004,
+    code: 10004,
     message: '用户名不存在',
     data: null
   },
   userLoginError: {
-    code: 1005,
+    code: 10005,
     message: '登录失败',
     data: null
   },
   invalidPassword: {
-    code: 1006,
+    code: 10006,
     message: '用户名或密码错误',
     data: null
   },
   changePasswordError: {
-    code: 1007,
+    code: 10007,
     message: '密码更新失败',
     data: null
   },
@@ -114,6 +114,16 @@ module.exports = {
     message: '获取keyword失败',
     data: null
   },
+  searchProductError: {
+    code: 10603,
+    message: '查找不到该商品',
+    data: null
+  },
+  searchError: {
+    code: 10604,
+    message: '获取商品列表数据失败',
+    data: null
+  },
   productFormatError: {
     code: 10701,
     message: '商品参数数据格式错误',
@@ -147,6 +157,11 @@ module.exports = {
   getGuessYouLikeError: {
     code: 10903,
     message: '获取猜你喜欢列表失败',
+    data: null
+  },
+  getCartRecommendError: {
+    code: 10904,
+    message: '获取购物车推荐列表失败',
     data: null
   }
 }

@@ -26,7 +26,7 @@ const {
 
 const {
   user
-} = require('../../model/formatCheck/user.schema.model')
+} = require('../../model/formatCheck/user.schema')
 
 // router
 router

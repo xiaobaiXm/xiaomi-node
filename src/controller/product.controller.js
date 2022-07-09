@@ -1,9 +1,12 @@
 const {
-  getGuessYouLike
+  getGuessYouLike,
+  getCartRecommendInfo,
+  getAllProduct
 } = require('../service/product.service')
 
 const {
-  getGuessYouLikeError
+  getGuessYouLikeError,
+  getCartRecommendError
 } = require('../constant/err.type')
 
 class ProductController {
@@ -18,6 +21,26 @@ class ProductController {
     } catch (err) {
       console.error(err)
       return ctx.app.emit('error', getGuessYouLikeError, ctx)
+    }
+  }
+
+  // get cart recommend info
+  async getCartRecommend(ctx) {
+    try {
+      ctx.body = {
+        code: 200,
+        message: '获取购物车推荐列表成功',
+        data: await getCartRecommendInfo()
+      }
+    } catch (err) {
+      console.error(err)
+      return ctx.app.emit('error', getCartRecommendError, ctx)
+    }
+  }
+
+  async findAll(ctx) {
+    ctx.body = {
+      data: await getAllProduct()
     }
   }
 }

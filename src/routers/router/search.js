@@ -12,7 +12,8 @@ const {
 
 // middleware
 const {
-  validator
+  validator,
+  disposeParameter
 } = require('../../middleware/search.middleware')
 
 // format check
@@ -22,7 +23,7 @@ const {
 
 // router
 router
-  .post('/', validator(findType), findProduct)
+  .post('/', validator(findType), disposeParameter, findProduct)
   .get('/keyword', findKeyword)
 
 module.exports = router

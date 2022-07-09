@@ -1,8 +1,13 @@
 // product model
 const Product = require('../model/product.model')
 
+// sku model
+const Sku = require('../model/sku.model')
+
 // other model 
 const Guess_you_like = require('../model/guess_you_like.model')
+const Cart_recommend = require('../model/cart_recommend.model')
+
 
 // 连接 product 数据库
 class ProductService {
@@ -40,27 +45,36 @@ class ProductService {
       }
     })
   }
+
+  // get cart recommend info
+  async getCartRecommendInfo() {
+    return await Cart_recommend.findAll({
+      attributes: ['id', 'product_id', 'favorable_comment'],
+      include: {
+        model: Product,
+        attributes: ['id', 'name', 'price', 'main_image'],
+        as: 'product_info'
+      }
+    })
+  }
+
+  async getAllProduct() {
+    return await Product.findAll({
+      attributes: ['id', 'name', 'desc', 'subtitle'],
+      where: {
+        search_group_id: 3
+      },
+      include: {
+        model: Sku,
+        where: {
+          is_check: true
+        }
+        // as: 'product_info',
+        //  attributes: ['id', 'name', 'price', 'main_image']
+      }
+    })
+
+  }
 }
 
 module.exports = new ProductService()
-
-/* const arr = [{
-  category_id: 2,
-  name: '小米',
-  subtitle: '小米',
-  main_image: '小米',
-  sub_images: '小米',
-  price: '小米',
-  old_price: '小米',
-  detail: '小米'
-}]
-
-async function a() {
-  arr.forEach((item, index) => {
-    Product.create({
-      name: item
-    })
-  })
-}
-
-a() */

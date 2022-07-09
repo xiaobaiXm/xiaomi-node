@@ -26,11 +26,11 @@ const Search_keyword = seq.define('mi_search_keyword', {
 //   force: true
 // })
 
-Search_keyword.belongsTo(Product, {
-  otherKey: 'search_group_id',
-  foreignKey: 'product_group_id',
-  as: 'search_product_keyword_id'
-})
+// Search_keyword.belongsTo(Product, {
+//   targetKey: 'search_group_id',
+//   foreignKey: 'product_group_id',
+//   as: 'search_product_keyword_id'
+// })
 
 module.exports = Search_keyword
 

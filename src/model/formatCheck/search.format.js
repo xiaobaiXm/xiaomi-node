@@ -3,16 +3,12 @@ const findType = {
     type: 'string',
     required: true
   },
-  props: {
-    type: Array,
-    required: false
-  },
   order: {
     type: 'string',
     required: false
   },
   filter_tag: {
-    type: 'string',
+    type: 'array',
     required: false
   },
   pageNo: {

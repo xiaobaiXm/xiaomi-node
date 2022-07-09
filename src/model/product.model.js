@@ -4,6 +4,9 @@ const {
 
 const seq = require('../db/seq')
 
+// sku model
+const Sku = require('./sku.model')
+
 // product model
 const Product = seq.define('mi_product', {
   nav_id: {
@@ -26,40 +29,30 @@ const Product = seq.define('mi_product', {
     allowNull: true,
     comment: 'product search group id',
   },
+  sku_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    comment: 'spu id',
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: 'product name',
   },
   subtitle: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    type: DataTypes.STRING,
+    allowNull: true,
     comment: 'product subtitle',
   },
-  main_image: {
+  desc: {
     type: DataTypes.STRING,
-    allowNull: false,
-    comment: 'product img',
-  },
-  sub_images: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-    comment: 'product sub imgs',
-  },
-  price: {
-    type: DataTypes.DECIMAL(10),
-    allowNull: false,
-    comment: 'product price',
-  },
-  old_price: {
-    type: DataTypes.DECIMAL(10),
     allowNull: true,
-    comment: 'product old price',
+    comment: 'product description',
   },
-  detail: {
+  sale_icons: {
     type: DataTypes.TEXT,
-    allowNull: false,
-    comment: 'product detail',
+    allowNull: true,
+    comment: 'product sale icons imgs',
   },
   stock: {
     type: DataTypes.INTEGER,
@@ -91,5 +84,11 @@ const Product = seq.define('mi_product', {
 // Product.sync({
 //   force: true
 // })
+
+Product.belongsTo(Sku, {
+  targetKey: 'spu_id',
+  foreignKey: 'sku_id',
+  // as: 'product_spu_id'
+})
 
 module.exports = Product

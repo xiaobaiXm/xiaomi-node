@@ -1,10 +1,11 @@
 const {
-  findSearch,
+  findSearchInfo,
   getSearchKeyword
 } = require('../service/search.service')
 
 const {
-  findSearchKeywordError
+  findSearchKeywordError,
+  searchError
 } = require('../constant/err.type')
 
 class SearchController {
@@ -12,22 +13,25 @@ class SearchController {
   async findProduct(ctx) {
     const {
       keyword,
-      props,
+      filter_tag,
       order,
       pageNo = 1,
       pageSize = 20
     } = ctx.request.body
 
-    ctx.body = {
-      code: 200,
-      message: '获取数据成功',
-      data: {
-        keyword,
-        props,
-        order,
-        pageNo,
-        pageSize
+    try {
+      ctx.body = {
+        code: 200,
+        message: '获取搜索列表成功',
+        data: await findSearchInfo(pageNo, pageSize, {
+          keyword,
+          filter_tag,
+          order,
+        })
       }
+    } catch (err) {
+      console.error(err)
+      return ctx.app.emit('error', searchError, ctx)
     }
   }
 
