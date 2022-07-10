@@ -24,7 +24,7 @@ const {
 const {
   createOrder,
   updateOrder
-} = require('../../model/formatCheck/order.format')
+} = require('../../utils/formatCheck/order.format')
 
 // router
 router

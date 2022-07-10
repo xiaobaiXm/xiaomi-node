@@ -26,7 +26,7 @@ const {
 // format check
 const {
   createOrUpdateAddress
-} = require('../../model/formatCheck/address.format')
+} = require('../../utils/formatCheck/address.format')
 
 // router
 router

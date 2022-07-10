@@ -1,11 +1,9 @@
+const sequelize = require('sequelize')
 const {
   Op
 } = require('sequelize')
-
-// search models
+// other modes
 const Search_keyword = require('../model/search_keyword.model')
-
-// product and sku model
 const Product = require('../model/product.model')
 const Sku = require('../model/sku.model')
 
@@ -14,52 +12,73 @@ class SearchService {
   // search products
   async findSearchInfo(pageNo, pageSize, prams) {
     const {
+      installment,
+      promotion,
+      available
+    } = prams.filter_tag[0]
+    const {
       count,
       rows
     } = await Product.findAndCountAll({
       attributes: ['id', 'name', 'subtitle'],
       where: {
+        stock: {
+          [Op.gte]: -1 ? available : 1
+        },
         search_group_id: prams.keyword,
         [Op.and]: [{
-          promotion: prams.filter_tag[0].promotion
+          promotion
         }, {
-          installment: prams.filter_tag[0].installment
-        }, ],
-        // someAttribute: {
-        //   [Op.gte]: 0
-        // }
+          installment
+        }]
       },
+      order: [
+        prams.order.model ? [prams.order.model, prams.order.field, prams.order.way] : [prams.order.field, prams.order.way]
+      ],
       include: {
         model: Sku,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        },
         where: {
-          is_check: true
+          search_is_check: true
         }
-        // as: 'product_info',
-        //  attributes: ['id', 'name', 'price', 'main_image']
       },
       offset: (pageNo - 1) * pageSize,
       limit: pageSize * 1,
+      distinct: true
+    })
+    const newArr = [...new Set(rows.map(item => item.name))]
+    const list = []
+    newArr.forEach(names => {
+      list.push(rows.filter(item => item.name === names))
+    })
+    const data = []
+    list.forEach((item, index) => {
+      const arr = []
+      item.forEach(items => {
+        arr.push({
+          info_id: items.mi_sku.id,
+          price: items.mi_sku.price,
+          oldPrice: items.mi_sku.old_price,
+          img: items.mi_sku.img,
+          version: items.mi_sku.version
+        })
+      })
+      data.push({
+        product_id: item[0].id,
+        product_name: newArr[index],
+        product_info: arr
+      })
     })
 
     return {
       pageNo,
       pageSize,
       total: count,
-      list: rows,
+      list: data
     }
   }
-
-
-  /*  switch (prams.order) {
-     case '1:desc':
-       return 
-     case '1:asc':
-       return
-     case '2:desc':
-       ctx.request.body.order = ''
-     case '2:asc':
-       ctx.request.body.order = ''
-   } */
 
   // get search keyword 
   async getSearchKeyword() {

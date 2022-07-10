@@ -29,7 +29,7 @@ const Product = seq.define('mi_product', {
     allowNull: true,
     comment: 'product search group id',
   },
-  sku_id: {
+  product_sku_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
     comment: 'spu id',
@@ -72,6 +72,11 @@ const Product = seq.define('mi_product', {
     defaultValue: false,
     comment: 'product installment',
   },
+  sales: {
+    type: DataTypes.DECIMAL(10),
+    allowNull: true,
+    comment: 'product sales',
+  },
   status: {
     type: DataTypes.TINYINT,
     allowNull: false,
@@ -86,9 +91,9 @@ const Product = seq.define('mi_product', {
 // })
 
 Product.belongsTo(Sku, {
-  targetKey: 'spu_id',
-  foreignKey: 'sku_id',
-  // as: 'product_spu_id'
+  targetKey: 'sku_id',
+  foreignKey: 'product_sku_id',
+  // as: 'products_infos'
 })
 
 module.exports = Product

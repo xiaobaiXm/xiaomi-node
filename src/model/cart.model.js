@@ -4,7 +4,9 @@ const {
 
 const seq = require('../db/seq')
 
+// other models
 const Product = require('./product.model')
+const Sku = require('./sku.model')
 
 // create cart model
 const Cart = seq.define('mi_cart', {
@@ -12,6 +14,11 @@ const Cart = seq.define('mi_cart', {
     type: DataTypes.INTEGER,
     allowNull: false,
     comment: 'goods id'
+  },
+  cart_sku_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    comment: 'sku id'
   },
   user_id: {
     type: DataTypes.INTEGER,
@@ -39,7 +46,8 @@ const Cart = seq.define('mi_cart', {
 
 Cart.belongsTo(Product, {
   foreignKey: 'product_id',
-  as: 'product_info'
+  as: 'cart_product_info'
 })
+
 
 module.exports = Cart

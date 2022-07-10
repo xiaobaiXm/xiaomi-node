@@ -49,7 +49,7 @@ module.exports = {
     message: '添加商品失败',
     data: null
   },
-  findAllShopCartError: {
+  findAllCartError: {
     code: 10202,
     message: '获取购物车失败',
     data: null
@@ -57,6 +57,21 @@ module.exports = {
   updateShopCartError: {
     code: 10203,
     message: '更新购物车失败',
+    data: null
+  },
+  cartSelectAllError: {
+    code: 10204,
+    message: '更新购物车失败',
+    data: null
+  },
+  removeCartError: {
+    code: 10205,
+    message: '删除购物车失败',
+    data: null
+  },
+  getCartCountError: {
+    code: 10206,
+    message: '获取购物车数量失败',
     data: null
   },
   cartFormatError: {

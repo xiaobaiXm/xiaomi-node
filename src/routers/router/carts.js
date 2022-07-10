@@ -20,6 +20,7 @@ const {
   update,
   remove,
   selectAll,
+  findCount
 } = require('../../controller/cart.controller')
 
 const {
@@ -31,14 +32,15 @@ const {
   addCart,
   updateCart,
   removeCart
-} = require('../../model/formatCheck/cart.format')
+} = require('../../utils/formatCheck/cart.format')
 
 // router
 router
   .post('/', auth, validator(addCart), validationProductId, findInventory, addShopCart)
-  .get('/carts', auth, findAll)
+  .get('/', auth, findAll)
   .patch('/:id', auth, validator(updateCart), update)
   .delete('/', auth, validator(removeCart), remove)
   .post('/selectAll', auth, selectAll)
+  .get('/count', auth, findCount)
 
 module.exports = router

@@ -5,17 +5,19 @@ const {
 // cart model 
 const Cart = require('../model/cart.model')
 
-// product model
+// other model
 const Product = require('../model/product.model')
+const Sku = require('../model/sku.model')
 
 // 连接 cart 数据库
 class CartService {
-  async createOrUpdate(user_id, product_id) {
+  async createOrUpdate(user_id, product_id, cart_sku_id) {
     const res = await Cart.findOne({
       where: {
         [Op.and]: {
           user_id,
-          product_id
+          product_id,
+          cart_sku_id
         }
       }
     })
@@ -25,7 +27,8 @@ class CartService {
     } else {
       return await Cart.create({
         user_id,
-        product_id
+        product_id,
+        cart_sku_id
       })
     }
   }
@@ -38,15 +41,21 @@ class CartService {
       where: {
         user_id
       },
-      include: {
-        model: Product,
-        as: 'product_info',
-        attributes: ['id', 'name', 'price', 'main_image']
-      }
+      include: [{
+          model: Product,
+          as: 'cart_product_info',
+          attributes: ['id', 'name'],
+        },
+        // {
+        // module: Sku,
+        // as: 'cart_sku_info',
+        // attributes: ['price', 'version', 'color'],
+        // }
+      ]
     })
 
     return {
-      list: rows,
+      list: rows
     }
   }
 
@@ -81,6 +90,14 @@ class CartService {
     return await Cart.update({
       selected
     }, {
+      where: {
+        user_id
+      }
+    })
+  }
+
+  async getUserCartsCountInfo(user_id) {
+    return await Cart.count({
       where: {
         user_id
       }

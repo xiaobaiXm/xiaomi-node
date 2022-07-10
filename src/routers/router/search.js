@@ -19,7 +19,7 @@ const {
 // format check
 const {
   findType
-} = require('../../model/formatCheck/search.format')
+} = require('../../utils/formatCheck/search.format')
 
 // router
 router

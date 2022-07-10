@@ -17,7 +17,7 @@ const {
 // format check
 const {
 
-} = require('../../model/formatCheck/cart.format')
+} = require('../../utils/formatCheck/cart.format')
 
 // router
 router

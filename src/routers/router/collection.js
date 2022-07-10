@@ -28,7 +28,7 @@ const {
 const {
   addType,
   delType
-} = require('../../model/formatCheck/collection.format')
+} = require('../../utils/formatCheck/collection.format')
 
 // router
 router

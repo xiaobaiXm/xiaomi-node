@@ -3,22 +3,27 @@ const {
   findCartsAll,
   updateCarts,
   removeCarts,
-  selectAllCarts
+  selectAllCarts,
+  getUserCartsCountInfo
 } = require('../service/cart.service')
 
 const {
   addShopCartError,
-  findAllShopCartError,
-  updateShopCartError
+  findAllCartError,
+  updateShopCartError,
+  cartSelectAllError,
+  removeCartError,
+  getCartCountError
 } = require('../constant/err.type')
 
 class CartController {
   async addShopCart(ctx) {
     const user_id = ctx.state.user.id
     const product_id = ctx.request.body.product_id
+    const cart_sku_id = ctx.request.body.cart_sku_id
 
     try {
-      await createOrUpdate(user_id, product_id)
+      await createOrUpdate(user_id, product_id, cart_sku_id)
       ctx.body = {
         code: 200,
         message: '添加购物车成功',
@@ -33,12 +38,15 @@ class CartController {
   async findAll(ctx) {
     const user_id = ctx.state.user.id
 
-    const res = await findCartsAll(user_id)
-
-    ctx.body = {
-      code: 200,
-      message: '获取购物车成功',
-      data: res
+    try {
+      ctx.body = {
+        code: 200,
+        message: '获取购物车列表成功',
+        data: await findCartsAll(user_id)
+      }
+    } catch (err) {
+      console.error(err)
+      return ctx.app.emit('error', findAllCartError, ctx)
     }
   }
 
@@ -52,15 +60,14 @@ class CartController {
     } = ctx.request.body
 
     try {
-      const res = await updateCarts({
-        id,
-        number,
-        selected
-      })
       ctx.body = {
         code: 200,
         message: '更新购物车成功',
-        data: res
+        data: await updateCarts({
+          id,
+          number,
+          selected
+        })
       }
     } catch (err) {
       console.error(err)
@@ -73,12 +80,15 @@ class CartController {
       ids
     } = ctx.request.body
 
-    const res = await removeCarts(ids)
-
-    ctx.body = {
-      code: 200,
-      message: '删除购物车成功',
-      data: res
+    try {
+      ctx.body = {
+        code: 200,
+        message: '删除购物车成功',
+        data: res = await removeCarts(ids)
+      }
+    } catch (err) {
+      console.error(err)
+      return ctx.app.emit('error', removeCartError, ctx)
     }
   }
 
@@ -88,12 +98,29 @@ class CartController {
       selected
     } = ctx.request.body
 
-    const res = await selectAllCarts(user_id, selected)
+    try {
+      ctx.body = {
+        code: 200,
+        message: '购物车状态更新成功',
+        data: await selectAllCarts(user_id, selected)
+      }
+    } catch (err) {
+      console.error(err)
+      return ctx.app.emit('error', cartSelectAllError, ctx)
+    }
+  }
 
-    ctx.body = {
-      code: 200,
-      message: '状态更新成功',
-      data: res
+  async findCount(ctx) {
+    const user_id = ctx.state.user.id
+    try {
+      ctx.body = {
+        code: 200,
+        message: '获取购物车数量成功',
+        data: await getUserCartsCountInfo(user_id)
+      }
+    } catch (err) {
+      console.error(err)
+      return ctx.app.emit('error', getCartCountError, ctx)
     }
   }
 }

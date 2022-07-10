@@ -6,7 +6,7 @@ const seq = require('../db/seq')
 
 // product model
 const Sku = seq.define('mi_sku', {
-  spu_id: {
+  sku_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
     comment: 'spu id'
@@ -41,6 +41,12 @@ const Sku = seq.define('mi_sku', {
     allowNull: false,
     defaultValue: false,
     comment: 'is check'
+  },
+  search_is_check: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: 'search is check'
   }
 })
 

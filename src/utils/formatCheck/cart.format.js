@@ -1,5 +1,6 @@
 const addCart = {
-  product_id: 'number'
+  product_id: 'number',
+  cart_sku_id: 'number'
 }
 
 const updateCart = {
