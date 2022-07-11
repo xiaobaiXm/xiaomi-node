@@ -36,7 +36,6 @@ const findInventory = async (ctx, next) => {
   const product_id = ctx.request.body.product_id
 
   if (await findProductInventory(product_id)) {
-    console.log('ok')
     await next()
   } else {
     ctx.app.emit('error', productNotAvailable, ctx)

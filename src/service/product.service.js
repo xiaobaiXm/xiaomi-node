@@ -62,13 +62,13 @@ class ProductService {
     return await Product.findAll({
       attributes: ['id', 'name', 'desc', 'subtitle'],
       where: {
-        search_group_id: 3
+        category_id: 2
       },
       include: {
         model: Sku,
-        where: {
-          is_check: true
-        }
+        // where: {
+        //   is_check: true
+        // }
         // as: 'product_info',
         //  attributes: ['id', 'name', 'price', 'main_image']
       }

@@ -3,6 +3,15 @@ const router = new Router({
   prefix: '/cart'
 })
 
+// controller
+const {
+  addShopCart,
+  findAll,
+  update,
+  remove,
+  selectAll
+} = require('../../controller/cart.controller')
+
 // middleware
 const {
   validator,
@@ -12,16 +21,6 @@ const {
   validationProductId,
   findInventory
 } = require('../../middleware/product.middleware')
-
-// controller
-const {
-  addShopCart,
-  findAll,
-  update,
-  remove,
-  selectAll,
-  findCount
-} = require('../../controller/cart.controller')
 
 const {
   auth
@@ -41,6 +40,5 @@ router
   .patch('/:id', auth, validator(updateCart), update)
   .delete('/', auth, validator(removeCart), remove)
   .post('/selectAll', auth, selectAll)
-  .get('/count', auth, findCount)
 
 module.exports = router

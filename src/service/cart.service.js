@@ -25,16 +25,32 @@ class CartService {
       await res.increment('number')
       return await res.reload()
     } else {
-      return await Cart.create({
+      const {
+        id
+      } = await Cart.create({
         user_id,
         product_id,
         cart_sku_id
+      })
+
+      return await Cart.findByPk(id, {
+        attributes: ['id', 'number'],
+        include: [{
+          model: Sku,
+          attributes: ['id', 'img', 'color', 'version'],
+          as: 'cart_sku_info',
+        }, {
+          model: Product,
+          attributes: ['id', 'name'],
+          as: 'cart_product_info'
+        }]
       })
     }
   }
 
   async findCartsAll(user_id) {
     const {
+      count,
       rows
     } = await Cart.findAndCountAll({
       attributes: ['id', 'number', 'selected'],
@@ -42,19 +58,21 @@ class CartService {
         user_id
       },
       include: [{
-          model: Product,
-          as: 'cart_product_info',
-          attributes: ['id', 'name'],
+          model: Sku,
+          attributes: ['id', 'price', 'img', 'color', 'version'],
+          as: 'cart_sku_info',
         },
-        // {
-        // module: Sku,
-        // as: 'cart_sku_info',
-        // attributes: ['price', 'version', 'color'],
-        // }
-      ]
+        {
+          model: Product,
+          attributes: ['id', 'name'],
+          as: 'cart_product_info'
+        }
+      ],
+      distinct: true
     })
 
     return {
+      count,
       list: rows
     }
   }
@@ -90,14 +108,6 @@ class CartService {
     return await Cart.update({
       selected
     }, {
-      where: {
-        user_id
-      }
-    })
-  }
-
-  async getUserCartsCountInfo(user_id) {
-    return await Cart.count({
       where: {
         user_id
       }

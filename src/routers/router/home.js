@@ -8,6 +8,7 @@ const router = new Router({
 const {
   getNavBar,
   getNav,
+  getCategory,
   getBanner,
   getHeroBanner,
   getHeroList,
@@ -15,12 +16,14 @@ const {
   getContainer,
   getVideo,
   getFooterHelp,
-  getFooterNav
+  getFooterNav,
+  test
 } = require('../../controller/home.controller')
 
 router
   .get('/navBar', getNavBar)
   .get('/nav', getNav)
+  .get('/category', getCategory)
   .get('/banner', getBanner)
   .get('/heroBanner', getHeroBanner)
   .get('/heroList', getHeroList)
@@ -29,5 +32,6 @@ router
   .get('/video', getVideo)
   .get('/footerHelp', getFooterHelp)
   .get('/footerNav', getFooterNav)
+  .get('/test', test)
 
 module.exports = router

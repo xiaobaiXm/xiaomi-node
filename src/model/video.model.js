@@ -23,7 +23,7 @@ const Video = seq.define('mi_video', {
   },
   link: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     comment: 'video link'
   }
 })

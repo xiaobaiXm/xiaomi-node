@@ -178,5 +178,15 @@ module.exports = {
     code: 10904,
     message: '获取购物车推荐列表失败',
     data: null
+  },
+  detailFormatError: {
+    code: 101001,
+    message: '商品详情参数数据格式错误',
+    data: null
+  },
+  getProductDetailError: {
+    code: 101002,
+    message: '获取商品详情失败',
+    data: null
   }
 }

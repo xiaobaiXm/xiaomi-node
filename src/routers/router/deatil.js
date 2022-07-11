@@ -3,24 +3,27 @@ const router = new Router({
   prefix: '/detail'
 })
 
-// middleware
-const {
-
-} = require('../../middleware/cart.middleware')
-
 // controller
 const {
+  find
+} = require('../../controller/detail.controller')
 
-} = require('../../controller/cart.controller')
+// middleware
+const {
+  validator
+} = require('../../middleware/detail.middleware')
 
+const {
+  validationProductId
+} = require('../../middleware/product.middleware')
 
 // format check
 const {
-
-} = require('../../utils/formatCheck/cart.format')
+  findType
+} = require('../../utils//formatCheck/detail.formate')
 
 // router
 router
-
+  .post('/', validator(findType), validationProductId, find)
 
 module.exports = router

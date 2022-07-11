@@ -45,9 +45,13 @@ const Cart = seq.define('mi_cart', {
 // })
 
 Cart.belongsTo(Product, {
+  as: 'cart_product_info',
   foreignKey: 'product_id',
-  as: 'cart_product_info'
 })
 
+Cart.belongsTo(Sku, {
+  as: 'cart_sku_info',
+  foreignKey: 'cart_sku_id',
+})
 
 module.exports = Cart

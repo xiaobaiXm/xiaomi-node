@@ -3,8 +3,7 @@ const {
   findCartsAll,
   updateCarts,
   removeCarts,
-  selectAllCarts,
-  getUserCartsCountInfo
+  selectAllCarts
 } = require('../service/cart.service')
 
 const {
@@ -12,8 +11,7 @@ const {
   findAllCartError,
   updateShopCartError,
   cartSelectAllError,
-  removeCartError,
-  getCartCountError
+  removeCartError
 } = require('../constant/err.type')
 
 class CartController {
@@ -23,15 +21,14 @@ class CartController {
     const cart_sku_id = ctx.request.body.cart_sku_id
 
     try {
-      await createOrUpdate(user_id, product_id, cart_sku_id)
       ctx.body = {
         code: 200,
         message: '添加购物车成功',
-        data: ''
+        data: await createOrUpdate(user_id, product_id, cart_sku_id)
       }
     } catch (err) {
-      console.error('添加购物车失败', err)
-      ctx.app.emit('error', addShopCartError, ctx)
+      console.error(err)
+      return ctx.app.emit('error', addShopCartError, ctx)
     }
   }
 
@@ -107,20 +104,6 @@ class CartController {
     } catch (err) {
       console.error(err)
       return ctx.app.emit('error', cartSelectAllError, ctx)
-    }
-  }
-
-  async findCount(ctx) {
-    const user_id = ctx.state.user.id
-    try {
-      ctx.body = {
-        code: 200,
-        message: '获取购物车数量成功',
-        data: await getUserCartsCountInfo(user_id)
-      }
-    } catch (err) {
-      console.error(err)
-      return ctx.app.emit('error', getCartCountError, ctx)
     }
   }
 }

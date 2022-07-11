@@ -27,6 +27,27 @@ class HomeService {
     return
   }
 
+  async getCategoryInfo() {
+    const {
+      rows
+    } = await Category.findAndCountAll({
+      attributes: ['id', 'cate_id', 'name'],
+      include: {
+        model: Product,
+        attributes: ['id', 'name'],
+        as: 'category_children',
+      }
+    })
+
+    // const newArr = [...new Set(res.map(item => item.name))]
+    // const list = []
+    // newArr.forEach(names => {
+    //   list.push(res.filter(item => item.name === names))
+    // })
+
+    return rows
+  }
+
   async getBannerInfo() {
     return await Banner.findAll({
       attributes: ['id', 'product_id', 'img']
@@ -43,6 +64,10 @@ class HomeService {
     return await Hero_banner.findAll({
       attributes: ['id', 'product_id', 'img']
     })
+  }
+
+  async getContainerInfo() {
+
   }
 
   async getVideoInfo() {
