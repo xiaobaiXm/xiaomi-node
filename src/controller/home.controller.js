@@ -3,17 +3,16 @@ const {
   getNavInfo,
   getCategoryInfo,
   getBannerInfo,
+  getBigBannerInfo,
+  getPhoneInfo,
   getContainerInfo,
+  getHomeVideoInfo,
   getVideoInfo,
   getHeroListInfo,
   getHeroBannerInfo,
   getFooterHelpInfo,
   getFooterNavInfo
 } = require('../service/home.service')
-
-const Test_user = require('../model/test.user')
-const Test_role = require('../model/test.role')
-const Test_user_role = require('../model/test.user_role')
 
 class HomeController {
   async getNavBar(ctx) {
@@ -64,6 +63,14 @@ class HomeController {
     }
   }
 
+  async getBigBanner(ctx) {
+    ctx.body = {
+      code: 200,
+      message: 'ok',
+      data: await getBigBannerInfo()
+    }
+  }
+
   async getPhone(ctx) {
     ctx.body = {
       code: 200,
@@ -77,6 +84,14 @@ class HomeController {
       code: 200,
       message: 'ok',
       data: await getContainerInfo()
+    }
+  }
+
+  async getHomeVideo(ctx) {
+    ctx.body = {
+      code: 200,
+      message: 'ok',
+      data: await getHomeVideoInfo()
     }
   }
 
@@ -101,21 +116,6 @@ class HomeController {
       code: 200,
       message: 'ok',
       data: await getFooterNavInfo()
-    }
-  }
-
-  async test(ctx) {
-    const users = await Test_user.findAll({
-      include: [{
-        model: Test_role
-      }, ],
-      // where: {
-      //   id: 1
-      // },
-    })
-
-    ctx.body = {
-      users
     }
   }
 }

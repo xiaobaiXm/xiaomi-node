@@ -4,27 +4,23 @@ const {
 
 const seq = require('../db/seq')
 
-// product model
-const Product = require('../model/product.model')
-
-// create banner model
-const Banner = seq.define('mi_banner', {
+// create big banner model
+const Big_banner = seq.define('mi_big_banner', {
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
-    comment: 'product id'
+    comment: 'big banner product id'
   },
   img: {
     type: DataTypes.STRING,
-    allowNull: false,
-    comment: 'img'
+    allowNull: true,
+    comment: 'big banner img'
   }
 })
 
 // synchronizing databases
-// Banner.sync({
+// Big_banner.sync({
 //   force: true
 // })
 
-
-module.exports = Banner
+module.exports = Big_banner

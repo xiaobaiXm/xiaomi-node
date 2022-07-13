@@ -1,4 +1,4 @@
-// other modela
+// other models
 const Product = require('../model/product.model')
 const Sku = require('../model/sku.model')
 
@@ -6,14 +6,14 @@ const Sku = require('../model/sku.model')
 class DetailService {
   async getProductDetail(id) {
     const res = await Product.findAll({
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'subtitle'],
       where: {
         id
       },
-      include: {
+      include: [{
         model: Sku,
-        attributes: ['sku_id', 'price', 'old_price', 'color', 'version']
-      }
+        attributes: ['id', 'price', 'old_price', 'color', 'version']
+      }],
     })
 
     return res

@@ -4,8 +4,8 @@ const {
 
 const seq = require('../db/seq')
 
-// create container model
-const Container = seq.define('mi_container', {
+// create phone model
+const Phone = seq.define('mi_phone', {
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -41,28 +41,16 @@ const Container = seq.define('mi_container', {
     allowNull: true,
     comment: 'img'
   },
-  group: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    comment: 'group'
-  },
   area: {
     type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: 'right',
+    allowNull: true,
     comment: 'area'
-  },
-  mini: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-    comment: 'mini'
   }
 })
 
 // synchronizing databases
-// Container.sync({
+// Phone.sync({
 //   force: true
 // })
 
-module.exports = Container
+module.exports = Phone

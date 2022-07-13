@@ -13,8 +13,8 @@ const Video = seq.define('mi_video', {
   },
   desc: {
     type: DataTypes.STRING,
-    allowNull: true,
-    comment: 'path'
+    allowNull: false,
+    comment: 'desc'
   },
   img: {
     type: DataTypes.STRING,

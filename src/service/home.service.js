@@ -4,7 +4,9 @@ const Nav = require('../model/nav.model')
 const Banner = require('../model/banner.model')
 const Hero_banner = require('../model/hero_banner.model')
 const Hero_list = require('../model/hero_list.model')
+const Big_banner = require('../model/big_banner.model')
 
+const Phone = require('../model/phone.model')
 const Container = require('../model/container.model')
 const Category = require('../model/category.model')
 
@@ -12,8 +14,9 @@ const Video = require('../model/video.model')
 const Footer_help = require('../model/footer_help.model')
 const Footer_nav = require('../model/footer_nav.model')
 
-// product model
 const Product = require('../model/product.model')
+
+const Sku = require('../model/sku.model')
 
 // 连接 models 数据库
 class HomeService {
@@ -24,28 +27,42 @@ class HomeService {
   }
 
   async getNavInfo() {
-    return
+    const res = await Nav.findAll({
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    })
+    const newArr = [...new Set(res.map(item => item.group))]
+    const list = []
+    newArr.forEach(groups => {
+      list.push(res.filter(item => item.group === groups))
+    })
+    let data = []
+    list.forEach((item, index) => {
+      let arr = []
+      item.forEach(its => {
+        arr.push({
+          id: its.id,
+          product_id: its.product_id,
+          name: its.name,
+          price: its.price,
+          img: its.img,
+        })
+      })
+      data.push({
+        navTitle: newArr[index],
+        navChildren: arr
+      })
+    })
+    return data
   }
 
   async getCategoryInfo() {
-    const {
-      rows
-    } = await Category.findAndCountAll({
-      attributes: ['id', 'cate_id', 'name'],
-      include: {
-        model: Product,
-        attributes: ['id', 'name'],
-        as: 'category_children',
+    return await Category.findAll({
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
       }
     })
-
-    // const newArr = [...new Set(res.map(item => item.name))]
-    // const list = []
-    // newArr.forEach(names => {
-    //   list.push(res.filter(item => item.name === names))
-    // })
-
-    return rows
   }
 
   async getBannerInfo() {
@@ -66,8 +83,131 @@ class HomeService {
     })
   }
 
-  async getContainerInfo() {
+  async getBigBannerInfo() {
+    return await Big_banner.findAll({
+      attributes: ['id', 'product_id', 'img']
+    })
+  }
 
+  async getPhoneInfo() {
+    const res = await Phone.findAll({
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    })
+    const newArr = [...new Set(res.map(item => item.area))]
+    const list = []
+    newArr.forEach(areas => {
+      list.push(res.filter(item => item.area === areas))
+    })
+    const data = {
+      phoneTitle: '',
+      phoneChild: []
+    }
+    list.forEach(item => {
+      const arr = []
+      item.forEach(items => {
+        arr.push({
+          id: items.id,
+          productId: items.product_id,
+          name: items.name,
+          desc: items.desc,
+          price: items.price,
+          oldPrice: items.old_price,
+          img: items.img
+        })
+      })
+      data.phoneTitle = item[0].container_title
+      data.phoneChild.push(arr)
+    })
+    return data
+  }
+
+  async getContainerInfo() {
+    const result = await Container.findAll({
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    })
+    let newArr = [...new Set(result.map(item => item.container_title))]
+    let list = []
+    newArr.forEach(names => {
+      list.push(result.filter(item => item.container_title === names))
+    })
+    let data = []
+    list.forEach((item, index) => {
+      let arr = []
+      item.forEach(its => {
+        arr.push(its)
+      })
+      data.push({
+        containerTitle: newArr[index],
+        containerChild: arr
+      })
+    })
+    for (let i = 0; i < list.length; i++) {
+      let map = new Map()
+      let newArr = []
+      list[i].forEach(item => {
+        map.has(item.area) ? map.get(item.area).push(item) : map.set(item.area, [item])
+      })
+      newArr = [...map.values()]
+      data[i].containerChild = {
+        left: newArr[1],
+        right: newArr[0]
+      }
+      let newArr1 = [...new Set(data[i].containerChild.right.map(item => item.group))]
+      let li = []
+      newArr1.forEach(names => {
+        li.push(data[i].containerChild.right.filter(item => item.group === names))
+      })
+      let data1 = []
+      li.forEach((item, index) => {
+        let arr = []
+        let mini = []
+        item.forEach(its => {
+          if (its.mini == false) {
+            arr.push({
+              id: its.id,
+              product_id: its.product_id,
+              name: its.name,
+              desc: its.desc,
+              price: its.price,
+              old_price: its.old_price,
+              img: its.img,
+            })
+          } else {
+            mini.push({
+              id: its.id,
+              product_id: its.product_id,
+              name: its.name,
+              price: its.price,
+              img: its.img,
+            })
+          }
+        })
+        data1.push({
+          groupTitle: item[index].group,
+          groupChildren: arr,
+          groupMini: mini
+        })
+      })
+      data[i].containerChild.right = data1
+    }
+    return data
+  }
+
+  async getHomeVideoInfo() {
+    const res = await Video.findAll({
+      attributes: ['id', 'title', 'img', 'desc', 'link'],
+      where: {
+        id: [1, 2, 3, 4]
+      }
+    })
+
+    return {
+      videoInfo: res
+    }
   }
 
   async getVideoInfo() {
@@ -92,7 +232,22 @@ class HomeService {
     newArr.forEach(groups => {
       list.push(res.filter(item => item.group === groups))
     })
-    return list
+    let data = []
+    list.forEach((item, index) => {
+      let arr = []
+      item.forEach(its => {
+        arr.push({
+          id: its.id,
+          name: its.name,
+          path: its.path
+        })
+      })
+      data.push({
+        footer_nav_dt: newArr[index],
+        footer_nav_dd: arr
+      })
+    })
+    return data
   }
 }
 

@@ -1,13 +1,10 @@
 // product model
 const Product = require('../model/product.model')
 
-// sku model
-const Sku = require('../model/sku.model')
-
 // other model 
 const Guess_you_like = require('../model/guess_you_like.model')
 const Cart_recommend = require('../model/cart_recommend.model')
-
+const Sku = require('../model/sku.model')
 
 // 连接 product 数据库
 class ProductService {
@@ -59,21 +56,25 @@ class ProductService {
   }
 
   async getAllProduct() {
-    return await Product.findAll({
+    const {
+      rows
+    } = await Product.findAndCountAll({
       attributes: ['id', 'name', 'desc', 'subtitle'],
-      where: {
-        category_id: 2
-      },
+      // where: {
+      //   // category_id: 2
+      // },
       include: {
         model: Sku,
         // where: {
         //   is_check: true
         // }
-        // as: 'product_info',
-        //  attributes: ['id', 'name', 'price', 'main_image']
-      }
+        attributes: ['id', 'name', 'price', 'main_image'],
+        duplicating: false
+      },
+      // group: ['id']
     })
-
+    // console.log(res)
+    return rows
   }
 }
 

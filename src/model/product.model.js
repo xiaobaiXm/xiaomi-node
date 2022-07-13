@@ -4,26 +4,11 @@ const {
 
 const seq = require('../db/seq')
 
-// sku model
+// other models
 const Sku = require('./sku.model')
 
 // product model
 const Product = seq.define('mi_product', {
-  nav_id: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    comment: 'product nav id',
-  },
-  category_id: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    comment: 'product category id',
-  },
-  container_id: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    comment: 'product container id',
-  },
   search_group_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -31,8 +16,9 @@ const Product = seq.define('mi_product', {
   },
   product_sku_id: {
     type: DataTypes.INTEGER,
-    allowNull: true,
-    comment: 'spu id',
+    allowNull: false,
+    comment: 'sku id',
+    unique: false,
   },
   name: {
     type: DataTypes.STRING,
@@ -93,7 +79,7 @@ const Product = seq.define('mi_product', {
 Product.belongsTo(Sku, {
   targetKey: 'sku_id',
   foreignKey: 'product_sku_id',
-  // as: 'products_infos'
+  unique: false
 })
 
 module.exports = Product

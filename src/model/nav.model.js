@@ -4,24 +4,36 @@ const {
 
 const seq = require('../db/seq')
 
+// other models
 const Product = require('./product.model')
+const Sku = require('./sku.model')
 
 // create nav model
 const Nav = seq.define('mi_nav', {
+  product_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    comment: 'product id'
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: 'nav name'
   },
-  product_id: {
-    type: DataTypes.INTEGER,
+  price: {
+    type: DataTypes.STRING,
     allowNull: false,
-    comment: 'nav product id'
+    comment: 'price'
+  },
+  img: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    comment: 'img'
   },
   group: {
     type: DataTypes.STRING,
     allowNull: false,
-    comment: 'nav group'
+    comment: 'group'
   }
 })
 
@@ -29,10 +41,5 @@ const Nav = seq.define('mi_nav', {
 // Nav.sync({
 //   force: true
 // })
-
-Nav.belongsTo(Product, {
-  foreignKey: 'product_id',
-  as: 'nav_product_info'
-})
 
 module.exports = Nav

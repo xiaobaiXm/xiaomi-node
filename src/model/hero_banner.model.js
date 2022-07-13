@@ -26,9 +26,4 @@ const Hero_banner = seq.define('mi_hero_banner', {
 //   force: true
 // })
 
-Hero_banner.belongsTo(Product, {
-  foreignKey: 'product_id',
-  as: 'hero_banner_product_info'
-})
-
 module.exports = Hero_banner
