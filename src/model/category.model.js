@@ -4,16 +4,18 @@ const {
 
 const seq = require('../db/seq')
 
-// other models
-const Product = require('./product.model')
-const Sku = require('./sku.model')
-
 // create category model
 const Category = seq.define('mi_category', {
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
     comment: 'product id'
+  },
+  keyword: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    defaultValue: true,
+    comment: 'keyword'
   },
   name: {
     type: DataTypes.STRING,

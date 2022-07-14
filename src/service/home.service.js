@@ -58,11 +58,28 @@ class HomeService {
   }
 
   async getCategoryInfo() {
-    return await Category.findAll({
+    const res = await Category.findAll({
       attributes: {
         exclude: ['createdAt', 'updatedAt']
       }
     })
+    const newArr = [...new Set(res.map(item => item.group))]
+    const list = []
+    newArr.forEach(groups => {
+      list.push(res.filter(item => item.group === groups))
+    })
+    let data = []
+    list.forEach((item, index) => {
+      let arr = []
+      item.forEach(its => {
+        arr.push(its)
+      })
+      data.push({
+        categoryTitle: newArr[index],
+        categoryChild: arr
+      })
+    })
+    return data
   }
 
   async getBannerInfo() {
@@ -100,25 +117,24 @@ class HomeService {
     newArr.forEach(areas => {
       list.push(res.filter(item => item.area === areas))
     })
-    const data = {
-      phoneTitle: '',
-      phoneChild: []
-    }
-    list.forEach(item => {
-      const arr = []
-      item.forEach(items => {
+    let data = []
+    list.forEach((item, index) => {
+      let arr = []
+      item.forEach(its => {
         arr.push({
-          id: items.id,
-          productId: items.product_id,
-          name: items.name,
-          desc: items.desc,
-          price: items.price,
-          oldPrice: items.old_price,
-          img: items.img
+          id: its.id,
+          productId: its.product_id,
+          name: its.name,
+          desc: its.desc,
+          price: its.price,
+          oldPrice: its.old_price,
+          img: its.img,
         })
       })
-      data.phoneTitle = item[0].container_title
-      data.phoneChild.push(arr)
+      data.push({
+        phoneArea: newArr[index],
+        phoneChild: arr
+      })
     })
     return data
   }
@@ -169,17 +185,17 @@ class HomeService {
           if (its.mini == false) {
             arr.push({
               id: its.id,
-              product_id: its.product_id,
+              productId: its.product_id,
               name: its.name,
               desc: its.desc,
               price: its.price,
-              old_price: its.old_price,
+              oldPrice: its.old_price,
               img: its.img,
             })
           } else {
             mini.push({
               id: its.id,
-              product_id: its.product_id,
+              productId: its.product_id,
               name: its.name,
               price: its.price,
               img: its.img,
@@ -198,16 +214,12 @@ class HomeService {
   }
 
   async getHomeVideoInfo() {
-    const res = await Video.findAll({
+    return await Video.findAll({
       attributes: ['id', 'title', 'img', 'desc', 'link'],
       where: {
         id: [1, 2, 3, 4]
       }
     })
-
-    return {
-      videoInfo: res
-    }
   }
 
   async getVideoInfo() {
@@ -243,8 +255,8 @@ class HomeService {
         })
       })
       data.push({
-        footer_nav_dt: newArr[index],
-        footer_nav_dd: arr
+        footerNavDt: newArr[index],
+        footerNavDd: arr
       })
     })
     return data
