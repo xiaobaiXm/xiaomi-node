@@ -81,7 +81,7 @@ class CartController {
       ctx.body = {
         code: 200,
         message: '删除购物车成功',
-        data: res = await removeCarts(ids)
+        data:  await removeCarts(ids)
       }
     } catch (err) {
       console.error(err)

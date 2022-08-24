@@ -15,6 +15,18 @@ const createOrUpdateAddress = {
   }
 }
 
+const findAllAddress = {
+  pageNo: {
+    type: 'number',
+    required: false
+  },
+  pageSize:  {
+    type: 'number',
+    required: false
+  },
+}
+
 module.exports = {
-  createOrUpdateAddress
+  createOrUpdateAddress,
+  findAllAddress
 }

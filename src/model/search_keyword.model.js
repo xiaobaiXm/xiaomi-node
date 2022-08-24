@@ -14,7 +14,7 @@ const Search_keyword = seq.define('mi_search_keyword', {
     allowNull: false,
     comment: 'search keyword',
   },
-  product_group_id: {
+  productGroupId: {
     type: DataTypes.INTEGER,
     allowNull: true,
     comment: 'product group id',

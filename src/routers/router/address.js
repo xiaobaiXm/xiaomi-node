@@ -25,13 +25,14 @@ const {
 
 // format check
 const {
-  createOrUpdateAddress
+  createOrUpdateAddress,
+  findAllAddress
 } = require('../../utils/formatCheck/address.format')
 
 // router
 router
   .post('/', auth, validator(createOrUpdateAddress), create)
-  .get('/', auth, findAll)
+  .post('/userAddress', auth ,findAll)
   .put('/:id', auth, validator(createOrUpdateAddress), update)
   .delete('/:id', auth, remove)
   .patch('/:id', auth, setDefault)

@@ -24,6 +24,11 @@ module.exports = {
     message: '登录失败',
     data: null
   },
+  findUserInfoError: {
+    code: 10006,
+    message: '获取用户信息失败',
+    data: null
+  },
   invalidPassword: {
     code: 10006,
     message: '用户名或密码错误',

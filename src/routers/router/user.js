@@ -9,7 +9,8 @@ const {
   register,
   login,
   verifyUserName,
-  changePassword
+  changePassword,
+  userInfo
 } = require('../../controller/user.controller.js')
 
 // middleware
@@ -34,6 +35,6 @@ router
   .post('/register', userValidator, cryptPassword, register)
   .post('/verifyName', verifyUserName)
   .patch('/', auth, cryptPassword, changePassword)
-  .get('/', auth)
+  .get('/', auth, userInfo)
 
 module.exports = router

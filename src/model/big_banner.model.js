@@ -6,7 +6,7 @@ const seq = require('../db/seq')
 
 // create big banner model
 const Big_banner = seq.define('mi_big_banner', {
-  product_id: {
+  productId: {
     type: DataTypes.INTEGER,
     allowNull: true,
     comment: 'big banner product id'

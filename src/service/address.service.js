@@ -12,15 +12,26 @@ class AddressService {
   }
 
   // find all user address
-  async findAllAddress(user_id) {
-    return await Address.findAll({
+  async findAllAddress(user_id, pageNo, pageSize) {
+    const {
+      rows,
+      count
+    } = await Address.findAndCountAll({
       attributes: {
         exclude: ['user_id', 'createdAt', 'updatedAt']
       },
       where: {
         user_id
-      }
+      },
+      offset: (pageNo - 1) * pageSize,
+      limit: pageSize * 1,
     })
+    return {
+      pageNo,
+      pageSize,
+      total: count,
+      list: rows
+    }
   }
 
   // update address
@@ -64,26 +75,11 @@ class AddressService {
 
   // get all address info
   async getAllAddressInfo() {
-    const res = await Address_info.findAll({
+    return await Address_info.findAll({
       attributes: {
-        exclude: ['pinyin_prefix', 'pinyin', 'createdAt', 'updatedAt']
+        exclude: ['pinyin_prefix', 'pinyin', 'ext_ie', 'ext_name', 'createdAt', 'updatedAt']
       }
     })
-
-    const map = res.reduce((pre, cur) => {
-      pre[cur.id] = cur
-      cur.children = []
-      return pre
-    }, {})
-
-    const result = res.filter(item => {
-      if (map[item.pid]) {
-        map[item.pid].children.push(item)
-      }
-      return item.deep == 0
-    })
-
-    return res
   }
 }
 

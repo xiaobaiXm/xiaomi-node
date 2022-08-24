@@ -6,7 +6,7 @@ const seq = require('../db/seq')
 
 // create user model
 const User = seq.define('mi_user', {
-  user_name: {
+  username: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,

@@ -13,7 +13,7 @@ class SearchController {
   async findProduct(ctx) {
     const {
       keyword,
-      filter_tag,
+      filterTag,
       order,
       pageNo = 1,
       pageSize = 20
@@ -25,7 +25,7 @@ class SearchController {
         message: '获取搜索列表成功',
         data: await findSearchInfo(pageNo, pageSize, {
           keyword,
-          filter_tag,
+          filterTag,
           order,
         })
       }

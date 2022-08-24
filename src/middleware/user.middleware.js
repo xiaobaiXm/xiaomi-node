@@ -13,11 +13,11 @@ const {
 
 const userValidator = async (ctx, next) => {
   const {
-    user_name,
+    username,
     password
   } = ctx.request.body
 
-  if (!user_name || !password) {
+  if (!username || !password) {
     console.error('用户名或密码为空', ctx.request.body)
     return ctx.app.emit('error', userFormateError, ctx)
   }
@@ -39,23 +39,23 @@ const cryptPassword = async (ctx, next) => {
 
 const verifyLogin = async (ctx, next) => {
   const {
-    user_name,
+    username,
     password
   } = ctx.request.body
   // user whether exists
   try {
     const res = await getUserInfo({
-      user_name
+      username
     })
 
     if (!res) {
       console.error('用户名不存在', {
-        user_name
+        username
       })
       return ctx.app.emit('error', userDoesNotExist, ctx)
     }
 
-    // user_name and password are consistent
+    // username and password are consistent
     if (!bcrypt.compareSync(password, res.password)) {
       return ctx.app.emit('error', invalidPassword, ctx)
     }

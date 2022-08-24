@@ -9,7 +9,9 @@ const {
 const {
   userRegisterError,
   userAlreadyExists,
-  changePasswordError
+  changePasswordError,
+  userLoginError,
+  findUserInfoError
 } = require('../constant/err.type')
 
 const {
@@ -21,18 +23,18 @@ class UserController {
   // register
   async register(ctx, next) {
     const {
-      user_name,
+      username,
       password
     } = ctx.request.body
 
     try {
-      const res = await createUser(user_name, password)
+      const res = await createUser(username, password)
       ctx.body = {
         code: 200,
         message: "用户注册成功",
         data: {
           id: res.id,
-          user_name: res.user_name
+          username: res.username
         }
       }
     } catch (err) {
@@ -44,7 +46,7 @@ class UserController {
   // login 
   async login(ctx, next) {
     const {
-      user_name
+      username
     } = ctx.request.body
 
     // get user info and return token 
@@ -54,7 +56,7 @@ class UserController {
         password,
         ...res
       } = await getUserInfo({
-        user_name
+        username
       })
 
       ctx.body = {
@@ -68,19 +70,20 @@ class UserController {
       }
     } catch (err) {
       console.error('登录失败', err)
+      ctx.app.emit("error", userLoginError, ctx)
     }
   }
 
   // verify user name
   async verifyUserName(ctx, next) {
     const {
-      user_name
+      username
     } = ctx.request.body
 
     try {
       if (await getUserInfo({
-          user_name
-        })) {
+        username
+      })) {
         return ctx.app.emit('error', userAlreadyExists, ctx)
       }
 
@@ -100,9 +103,9 @@ class UserController {
     const password = ctx.request.body.password
 
     if (await updateUserInfoById({
-        id,
-        password
-      })) {
+      id,
+      password
+    })) {
       ctx.body = {
         code: 200,
         message: '密码修改成功',
@@ -111,6 +114,22 @@ class UserController {
     } else {
       console.error('密码更新失败')
       ctx.app.emit('error', changePasswordError, ctx)
+    }
+  }
+
+  // get user info
+  async userInfo(ctx) {
+    const id = ctx.state.user.id
+
+    try {
+      ctx.body = {
+        code: 200,
+        message: '获取用户信息成功',
+        data: await getUserInfo({ id })
+      }
+    } catch (err) {
+      console.err(err)
+      ctx.app.emit('error', findUserInfoError, ctx)
     }
   }
 }

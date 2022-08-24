@@ -15,7 +15,7 @@ class SearchService {
       installment,
       promotion,
       available
-    } = prams.filter_tag[0]
+    } = prams.filterTag[0]
     const {
       count,
       rows
@@ -25,7 +25,7 @@ class SearchService {
         stock: {
           [Op.gte]: -1 ? available : 1
         },
-        search_group_id: prams.keyword,
+        search_group_id: prams.keyword === 2 ? '' : prams.keyword,
         [Op.and]: [{
           promotion
         }, {
@@ -58,17 +58,18 @@ class SearchService {
       const arr = []
       item.forEach(items => {
         arr.push({
-          info_id: items.mi_sku.id,
+          infoId: items.mi_sku.id,
           price: items.mi_sku.price,
           oldPrice: items.mi_sku.old_price,
           img: items.mi_sku.img,
-          version: items.mi_sku.version
+          version: items.mi_sku.version,
+          isCheck: items.mi_sku.is_check
         })
       })
       data.push({
-        product_id: item[0].id,
-        product_name: newArr[index],
-        product_info: arr
+        productId: item[0].id,
+        productName: newArr[index],
+        productInfo: arr
       })
     })
 
@@ -83,14 +84,14 @@ class SearchService {
   // get search keyword 
   async getSearchKeyword() {
     return await Search_keyword.findAll({
-      attributes: ['id', 'keyword', 'product_group_id']
+      attributes: ['id', 'keyword', 'productGroupId']
     })
   }
 
   // get keyword info 
   async getKeywordInfo(keyword) {
     const res = await Search_keyword.findOne({
-      attributes: ['id'],
+      attributes: ['id', 'productGroupId'],
       where: {
         keyword
       }

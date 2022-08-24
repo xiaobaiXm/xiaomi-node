@@ -56,12 +56,17 @@ class AddressController {
   // find all user address
   async findAll(ctx) {
     const user_id = ctx.state.user.id
+    const {
+      pageNo = 1,
+      pageSize = 4
+    } = ctx.request.body
 
+    console.log(user_id, pageNo, pageSize)
     try {
       ctx.body = {
         code: 200,
         message: '获取地址列表成功',
-        data: await findAllAddress(user_id)
+        data: await findAllAddress(user_id, pageNo, pageSize)
       }
 
     } catch (err) {

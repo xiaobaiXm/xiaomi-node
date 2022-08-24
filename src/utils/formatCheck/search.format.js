@@ -7,7 +7,7 @@ const findType = {
     type: 'string',
     required: false
   },
-  filter_tag: {
+  filterTag: {
     type: 'array',
     required: false
   },

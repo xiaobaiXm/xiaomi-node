@@ -34,6 +34,12 @@ const Nav = seq.define('mi_nav', {
     type: DataTypes.STRING,
     allowNull: false,
     comment: 'group'
+  },
+  show: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: 'show flag'
   }
 })
 

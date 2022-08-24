@@ -51,6 +51,7 @@ class HomeService {
       })
       data.push({
         navTitle: newArr[index],
+        show: item[0].show,
         navChildren: arr
       })
     })
@@ -102,7 +103,7 @@ class HomeService {
 
   async getBigBannerInfo() {
     return await Big_banner.findAll({
-      attributes: ['id', 'product_id', 'img']
+      attributes: ['id', 'productId', 'img']
     })
   }
 

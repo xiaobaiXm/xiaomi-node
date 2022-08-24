@@ -4,9 +4,9 @@ const User = require('../model/user.model')
 // 连接 user 数据库
 class UserService {
   // register
-  async createUser(user_name, password) {
+  async createUser(username, password) {
     const res = await User.create({
-      user_name,
+      username,
       password
     })
     return res.dataValues
@@ -15,7 +15,7 @@ class UserService {
   // get user info 
   async getUserInfo({
     id,
-    user_name,
+    username,
     password,
     is_admin
   }) {
@@ -24,8 +24,8 @@ class UserService {
     id && Object.assign(whereOpt, {
       id
     })
-    user_name && Object.assign(whereOpt, {
-      user_name
+    username && Object.assign(whereOpt, {
+      username
     })
     password && Object.assign(whereOpt, {
       password
@@ -35,7 +35,7 @@ class UserService {
     })
 
     const res = await User.findOne({
-      attributes: ['id', 'user_name', 'password', 'is_admin'],
+      attributes: ['id', 'username', 'password'],
       where: whereOpt,
     })
 
@@ -45,7 +45,7 @@ class UserService {
   // update user info
   async updateUserInfoById({
     id,
-    user_name,
+    username,
     password,
     is_admin
   }) {
@@ -53,8 +53,8 @@ class UserService {
       id
     }
     const newUser = {}
-    user_name && Object.assign(newUser, {
-      user_name
+    username && Object.assign(newUser, {
+      username
     })
     password && Object.assign(newUser, {
       password

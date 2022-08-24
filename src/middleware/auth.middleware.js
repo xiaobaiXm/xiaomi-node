@@ -10,10 +10,7 @@ const {
 } = require('../config/config.default')
 
 const auth = async (ctx, next) => {
-  const {
-    authorization
-  } = ctx.request.header
-
+  const authorization = ctx.request.header.token
   const token = authorization.replace('Bearer ', '')
 
   try {
