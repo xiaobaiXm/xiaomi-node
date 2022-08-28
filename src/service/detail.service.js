@@ -15,7 +15,6 @@ class DetailService {
         attributes: ['id', 'price', 'old_price', 'color', 'version']
       }],
     })
-
     return res
   }
 }

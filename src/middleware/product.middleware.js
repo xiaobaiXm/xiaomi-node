@@ -23,7 +23,7 @@ const validator = (rules) => {
 }
 
 const validationProductId = async (ctx, next) => {
-  const product_id = ctx.request.body.product_id
+  const product_id = ctx.request.body.productId
 
   if (await getProductInfo(product_id)) {
     await next()

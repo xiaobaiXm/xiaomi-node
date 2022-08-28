@@ -10,14 +10,14 @@ const {
 class DetailController {
   async find(ctx) {
     const {
-      product_id
+      productId
     } = ctx.request.body
-
+    const id = parseInt(productId)
     try {
       ctx.body = {
         code: 200,
         message: '获取商品详情成功',
-        data: await getProductDetail(product_id)
+        data: await getProductDetail(id)
       }
     } catch (err) {
       console.error(err)

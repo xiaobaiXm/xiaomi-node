@@ -8,6 +8,7 @@ const router = new Router({
 const {
   create,
   findAll,
+  findPage,
   update,
   remove,
   setDefault,
@@ -32,7 +33,8 @@ const {
 // router
 router
   .post('/', auth, validator(createOrUpdateAddress), create)
-  .post('/userAddress', auth ,findAll)
+  .post('/address', auth, validator(findAllAddress), findPage)
+  .get('/', auth, findAll)
   .put('/:id', auth, validator(createOrUpdateAddress), update)
   .delete('/:id', auth, remove)
   .patch('/:id', auth, setDefault)

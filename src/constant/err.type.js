@@ -79,6 +79,16 @@ module.exports = {
     message: '获取购物车数量失败',
     data: null
   },
+  findUserSelectError: {
+    code: 10207,
+    message: '查找用户选中产品失败',
+    data: null
+  },
+  removeUserSuccessfulOrderError: {
+    code: 10208,
+    message: '删除下单产品失败',
+    data: null
+  },
   cartFormatError: {
     code: 10301,
     message: '购物车参数数据格式错误',

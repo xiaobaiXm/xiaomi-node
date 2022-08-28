@@ -12,7 +12,26 @@ class AddressService {
   }
 
   // find all user address
-  async findAllAddress(user_id, pageNo, pageSize) {
+  async findAllAddress(user_id) {
+    const res = await Address.findAll({
+      attributes: {
+        exclude: ['user_id', 'createdAt', 'updatedAt']
+      },
+      where: {
+        user_id
+      }
+    })
+    // rows.forEach((item, i) => {
+    //   if (item[i].phone != '' && item[i].phone != null) {
+    //     const reg = /^(.{3}).*(.{4})$/;
+    //     rows[i].phone = item[i].phone.replace(reg, '$1****$2')
+    //   }
+    // })
+
+    return res
+  }
+
+  async findPageAddress(user_id, pageNo, pageSize) {
     const {
       rows,
       count
@@ -26,6 +45,13 @@ class AddressService {
       offset: (pageNo - 1) * pageSize,
       limit: pageSize * 1,
     })
+    rows.forEach((item, i) => {
+      if (item[i].phone != '' && item[i].phone != null) {
+        const reg = /^(.{3}).*(.{4})$/;
+        rows[i].phone = item[i].phone.replace(reg, '$1****$2')
+      }
+    })
+
     return {
       pageNo,
       pageSize,
@@ -36,8 +62,6 @@ class AddressService {
 
   // update address
   async updateAddress(id, addressInfo) {
-    console.log(id)
-    console.log(addressInfo)
     return await Address.update(addressInfo, {
       where: {
         id

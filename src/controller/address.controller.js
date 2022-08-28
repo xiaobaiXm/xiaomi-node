@@ -1,6 +1,7 @@
 const {
   createAddress,
   findAllAddress,
+  findPageAddress,
   updateAddress,
   removeAddress,
   setDefaultAddress,
@@ -56,17 +57,32 @@ class AddressController {
   // find all user address
   async findAll(ctx) {
     const user_id = ctx.state.user.id
+
+    try {
+      ctx.body = {
+        code: 200,
+        message: '获取地址列表成功',
+        data: await findAllAddress(user_id)
+      }
+    } catch (err) {
+      console.err(err)
+      return ctx.app.emit('error', findAllAddressInfoError, ctx)
+    }
+  }
+
+  // find page user address
+  async findPage(ctx) {
+    const user_id = ctx.state.user.id
     const {
       pageNo = 1,
       pageSize = 4
     } = ctx.request.body
 
-    console.log(user_id, pageNo, pageSize)
     try {
       ctx.body = {
         code: 200,
         message: '获取地址列表成功',
-        data: await findAllAddress(user_id, pageNo, pageSize)
+        data: await findPageAddress(user_id, pageNo, pageSize)
       }
 
     } catch (err) {

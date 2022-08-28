@@ -1,5 +1,5 @@
 const findType = {
-  product_id: 'number'
+  productId: 'string'
 }
 
 module.exports = {

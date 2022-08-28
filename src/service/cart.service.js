@@ -58,15 +58,15 @@ class CartService {
         user_id
       },
       include: [{
-          model: Sku,
-          attributes: ['id', 'price', 'img', 'color', 'version'],
-          as: 'cart_sku_info',
-        },
-        {
-          model: Product,
-          attributes: ['id', 'name'],
-          as: 'cart_product_info'
-        }
+        model: Sku,
+        attributes: ['id', 'price', 'img', 'color', 'version'],
+        as: 'cart_sku_info',
+      },
+      {
+        model: Product,
+        attributes: ['id', 'name'],
+        as: 'cart_product_info'
+      }
       ],
       distinct: true
     })
@@ -110,6 +110,45 @@ class CartService {
     }, {
       where: {
         user_id
+      }
+    })
+  }
+
+  async userSelectCarts(user_id) {
+    const {
+      rows,
+      count
+    } = await Cart.findAndCountAll({
+      attributes: ['id', 'number', 'selected'],
+      where: {
+        user_id,
+        selected: true
+      },
+      include: [{
+        model: Sku,
+        attributes: ['id', 'price', 'img', 'color', 'version'],
+        as: 'cart_sku_info',
+      },
+      {
+        model: Product,
+        attributes: ['id', 'name'],
+        as: 'cart_product_info'
+      }
+      ],
+      distinct: true
+    })
+
+    return {
+      count,
+      list: rows
+    }
+  }
+
+  async removeUserSuccessfulOrder(user_id) {
+    return Cart.destroy({
+      where: {
+        user_id,
+        selected: true
       }
     })
   }

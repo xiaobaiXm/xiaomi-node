@@ -3,7 +3,9 @@ const {
   findCartsAll,
   updateCarts,
   removeCarts,
-  selectAllCarts
+  selectAllCarts,
+  userSelectCarts,
+  removeUserSuccessfulOrder
 } = require('../service/cart.service')
 
 const {
@@ -11,14 +13,16 @@ const {
   findAllCartError,
   updateShopCartError,
   cartSelectAllError,
-  removeCartError
+  removeCartError,
+  findUserSelectError,
+  removeUserSuccessfulOrderError
 } = require('../constant/err.type')
 
 class CartController {
   async addShopCart(ctx) {
     const user_id = ctx.state.user.id
-    const product_id = ctx.request.body.product_id
-    const cart_sku_id = ctx.request.body.cart_sku_id
+    const product_id = ctx.request.body.productId
+    const cart_sku_id = ctx.request.body.cartSkuId
 
     try {
       ctx.body = {
@@ -104,6 +108,33 @@ class CartController {
     } catch (err) {
       console.error(err)
       return ctx.app.emit('error', cartSelectAllError, ctx)
+    }
+  }
+
+  async findSelect(ctx) {
+    const user_id = ctx.state.user.id
+    try {
+      ctx.body = {
+        code: 200,
+        message: '查找用户选中产品成功',
+        data: await userSelectCarts(user_id)
+      }
+    } catch (err) {
+      console.error(err)
+      return ctx.app.emit('error', findUserSelectError, ctx)
+    }
+  }
+
+  async success(ctx) {
+    try {
+      ctx.body = {
+        code: 200,
+        message: '删除下单产品成功',
+        data: await removeUserSuccessfulOrder(user_id)
+      }
+    } catch (err) {
+      console.error(err)
+      return ctx.app.emit('error', removeUserSuccessfulOrderError, ctx)
     }
   }
 }

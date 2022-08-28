@@ -9,7 +9,9 @@ const {
   findAll,
   update,
   remove,
-  selectAll
+  selectAll,
+  findSelect,
+  success
 } = require('../../controller/cart.controller')
 
 // middleware
@@ -36,7 +38,9 @@ const {
 // router
 router
   .post('/', auth, validator(addCart), validationProductId, findInventory, addShopCart)
+  .post('/success' ,auth , success)
   .get('/', auth, findAll)
+  .get('/select' , auth ,findSelect )
   .patch('/:id', auth, validator(updateCart), update)
   .delete('/', auth, validator(removeCart), remove)
   .post('/selectAll', auth, selectAll)
