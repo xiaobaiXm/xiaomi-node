@@ -10,7 +10,9 @@ class OrderController {
     const {
       address_id,
       product_id,
-      total
+      total,
+      freight,
+      totalPrice
     } = ctx.request.body
 
     const order_number = 'XM' + Date.now()
@@ -23,7 +25,9 @@ class OrderController {
         order_number,
         address_id,
         product_id,
-        total
+        total,
+        freight,
+        totalPrice
       })
     }
   }

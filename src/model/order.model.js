@@ -4,6 +4,9 @@ const {
 
 const seq = require('../db/seq')
 
+// address model
+const Address = require('./address.model')
+
 // create order model
 const Order = seq.define('mi_order', {
   user_id: {
@@ -26,6 +29,16 @@ const Order = seq.define('mi_order', {
     allowNull: false,
     comment: 'total'
   },
+  freight: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    comment: 'freight'
+  },
+  totalPrice: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    comment: 'totalPrice'
+  },
   order_number: {
     type: DataTypes.CHAR(15),
     allowNull: false,
@@ -43,5 +56,10 @@ const Order = seq.define('mi_order', {
 // Order.sync({
 //   force: true
 // })
+
+Order.belongsTo(Address, {
+  foreignKey: 'address_id',
+  as: 'orderAddressInfo'
+})
 
 module.exports = Order

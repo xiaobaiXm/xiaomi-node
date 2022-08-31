@@ -1,7 +1,9 @@
 const createOrder = {
   address_id: 'int',
   product_info: 'string',
-  total: 'string'
+  freight: 'number',
+  total: 'number',
+  totalPrice: 'number'
 }
 
 const updateOrder = {
